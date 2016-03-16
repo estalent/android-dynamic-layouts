@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <TextView
+        android:tag="title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Built-In Layout"
+        android:layout_marginBottom="4dp"
+        android:textSize="32sp"/>
+
+    <Button
+        android:tag="action"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Clickable Button"
+        android:textSize="32sp"/>
+
+    <ImageView
+        android:tag="image"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_margin="4dp"/>
+</LinearLayout>

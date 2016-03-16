@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content">
+
+    <TextView
+        android:tag="title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Title from Dynamic Layout 01"
+        android:layout_marginBottom="4dp"
+        android:textSize="32sp"/>
+
+    <Button
+        android:tag="action"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Click Me"
+        android:textSize="32sp"/>
+
+    <ImageView
+        android:tag="image"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_margin="4dp"/>
+</LinearLayout>
