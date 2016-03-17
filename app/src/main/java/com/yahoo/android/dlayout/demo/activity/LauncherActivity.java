@@ -90,7 +90,7 @@ public class LauncherActivity extends AppCompatActivity {
 
         private View loadViewFromNetwork(int sectionNumber, ViewGroup container) {
             byte[] data = app.getLayoutCache().get("http://127.0.0.1:8888/0" + (sectionNumber - 1));
-            return app.getLayoutLoader().loadTemplate(data, getActivity(), container, false);
+            return app.getLayoutLoader().load(data, getActivity(), container, false);
         }
 
         private View populate(View view, final int imageNo) {
