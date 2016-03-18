@@ -18,7 +18,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RadioGroup;
 
+import com.google.android.gms.appindexing.Action;
+import com.google.android.gms.appindexing.AppIndex;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.yahoo.android.dlayout.demo.R;
 import com.yahoo.android.dlayout.demo.app.DynamicLayoutApplication;
 import com.squareup.picasso.Picasso;
@@ -80,12 +85,59 @@ public class LauncherActivity extends AppCompatActivity {
             int sectionNumber = getArguments().getInt(ARG_SECTION_NUMBER);
             switch(sectionNumber) {
                 case 1:
-                    return populate(inflater.inflate(R.layout.builtin_layout, container, false), sectionNumber);
+                    return populate(inflater.inflate(R.layout.builtin_layout, container, false), sectionNumber, "1");
                 case 2:
                 case 3:
-                    return populate(loadViewFromNetwork(sectionNumber, container), sectionNumber);
+                    return populate(loadViewFromNetwork(sectionNumber, container), sectionNumber, String.valueOf(sectionNumber));
+                case 4:
+                    return populate(loadDynamically(inflater, container, sectionNumber), sectionNumber, String.valueOf(sectionNumber));
             }
             return null;
+        }
+
+        protected View loadDynamically(final LayoutInflater inflater, final ViewGroup container, int sectionNumber) {
+            View root = inflater.inflate(R.layout.dynamic_choice_layout, container, false);
+            RadioGroup rg = (RadioGroup) root.findViewById(R.id.choice);
+            final ViewGroup fl = (ViewGroup) root.findViewById(R.id.container);
+            rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(RadioGroup group, int checkedId) {
+                    View v = null;
+                    switch (checkedId) {
+                        case R.id.choice1:
+                            v = createDynamicView(0, inflater, fl, "4.1");
+                            break;
+                        case R.id.choice2:
+                            v = createDynamicView(1, inflater, fl, "4.2");
+                            break;
+                        case R.id.choice3:
+                            v = createDynamicView(2, inflater, fl, "4.3");
+                            break;
+                    }
+                    fl.removeAllViews();;
+                    if(v != null) {
+                        fl.addView(v);
+                    }
+                }
+            });
+            return root;
+        }
+
+        protected View createDynamicView(int index, LayoutInflater inflater, ViewGroup container, String msgSuffix) {
+            View rv = null;
+            switch (index) {
+                case 0:
+                    rv = inflater.inflate(R.layout.builtin_layout, container, false);
+                    break;
+                case 1:
+                case 2:
+                    rv = loadViewFromNetwork(index + 1, container);
+                    break;
+            }
+            if(rv != null) {
+                populate(rv, index + 1, msgSuffix);
+            }
+            return rv;
         }
 
         private View loadViewFromNetwork(int sectionNumber, ViewGroup container) {
@@ -93,35 +145,34 @@ public class LauncherActivity extends AppCompatActivity {
             return app.getLayoutLoader().load(data, getActivity(), container, false);
         }
 
-        private View populate(View view, final int imageNo) {
+        private View populate(View view, final int imageNo, final String msgSuffix) {
             ImageView iv = (ImageView) view.findViewWithTag("image");
-            if(iv != null) {
+            if (iv != null) {
                 Picasso.with(getActivity()).load(imageURLs[imageNo - 1]).into(iv);
             }
 
-            view.findViewWithTag("action").setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    new AlertDialog.Builder(getActivity())
-                            .setTitle("Action Performed at " + imageNo)
-                            .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.dismiss();
-                                }
-                            })
-                            .create().show();
-                }
-            });
+            View action = view.findViewWithTag("action");
+            if (action != null) {
+                action.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        new AlertDialog.Builder(getActivity())
+                                .setTitle("Action Performed at " + msgSuffix)
+                                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+                                    }
+                                })
+                                .create().show();
+                    }
+                });
+            }
 
             return view;
         }
     }
 
-    /**
-     * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
-     * one of the sections/tabs/pages.
-     */
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
         public SectionsPagerAdapter(FragmentManager fm) {
@@ -135,18 +186,20 @@ public class LauncherActivity extends AppCompatActivity {
 
         @Override
         public int getCount() {
-            return 3;
+            return 4;
         }
 
         @Override
         public CharSequence getPageTitle(int position) {
             switch (position) {
                 case 0:
-                    return "App Layout";
+                    return "App";
                 case 1:
-                    return "Remote Layout 1";
+                    return "Remote 1";
                 case 2:
-                    return "Remote Layout 2";
+                    return "Remote 2";
+                case 3:
+                    return "Choice";
             }
             return null;
         }
