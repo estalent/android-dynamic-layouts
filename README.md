@@ -25,6 +25,6 @@ See file [LICENSE](LICENSE) accompanying the code.
 
 ## Related Links
 
-* Presentation at SF Droidcon 2016: [here](https://drive.google.com/file/d/0Bx2DjRwZsRm7QzlwaGJQa1dsemc/view?usp=sharing)
+* Presentation at SF Droidcon 2016: [Original - Keynote](http://bit.ly/1o01Znz) and [PDF](http://bit.ly/1Uv6MLY)
 
 
