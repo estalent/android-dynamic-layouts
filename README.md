@@ -22,3 +22,9 @@ Dynamic Layout Loader uses a non-public API (available and unchanged since API L
 The use and distribution terms for this software are covered by the Apache License, Version 2.0 (http://www.apache.org/licenses/LICENSE-2.0.html).
 
 See file [LICENSE](LICENSE) accompanying the code.
+
+## Related Links
+
+* Presentation at SF Droidcon 2016: [Original - Keynote](http://bit.ly/1o01Znz) and [PDF](http://bit.ly/1Uv6MLY)
+
+
